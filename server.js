@@ -10,12 +10,8 @@ const PORT = 5000;
 //middleware
 app.use(express.json()); // allows access to req.body
 
+// routes
 app.use('/api/v1/todos', todoRoutes);
-
-// test
-// app.get('/', (req, res) => {
-//     res.send('Your app is working');
-// });
 
 const start = async () => {
     try {

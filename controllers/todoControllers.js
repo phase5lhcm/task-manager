@@ -35,9 +35,28 @@ const getSingleTask = async (req, res) => {
     }
 };
 
-// export function updateTodo(req, res) {
-//     res.send('Edit task');
-// }
+const updateTodo = async (req, res) => {
+    try {
+        const { id: taskID } = req.params;
+        const task = await Task.findByIdAndUpdate({ _id: taskID }, req.body);
+        if (!task) {
+            return res.status(400).json({
+                msg: `Task ${task} does it exist. It may have already been deleted`,
+                error: error,
+            });
+        }
+        res.status(200).json({
+            id: taskID,
+            data: req.body,
+            // new: true,
+            // runValidators: true,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: '' });
+    }
+};
+
 const deleteSingleTodo = async (req, res) => {
     try {
         const { id: deleteTaskID } = req.params;
@@ -48,7 +67,9 @@ const deleteSingleTodo = async (req, res) => {
                 error: error,
             });
         }
-        res.status(200).json({ msg: `Task ${deleteTaskID} has been deleted` });
+        res.status(200).json({
+            msg: `Task ${deleteTaskID} has been deleted`,
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -58,4 +79,4 @@ const deleteSingleTodo = async (req, res) => {
     }
 };
 
-export { createTask, getAllItems, getSingleTask, deleteSingleTodo };
+export { createTask, getAllItems, getSingleTask, deleteSingleTodo, updateTodo };
