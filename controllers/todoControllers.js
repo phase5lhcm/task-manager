@@ -38,8 +38,24 @@ const getSingleTask = async (req, res) => {
 // export function updateTodo(req, res) {
 //     res.send('Edit task');
 // }
-// export function deleteTodo(req, res) {
-//     res.send('Delete task');
-// }
+const deleteSingleTodo = async (req, res) => {
+    try {
+        const { id: deleteTaskID } = req.params;
+        const deleteTask = await Task.findOneAndDelete({ _id: deleteTaskID });
+        if (!deleteTask) {
+            return res.status(400).json({
+                msg: `Task ${deleteTask} does it exist. It may have already been deleted`,
+                error: error,
+            });
+        }
+        res.status(200).json({ msg: `Task ${deleteTaskID} has been deleted` });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Error finding task`,
+            deleteError: error,
+        });
+    }
+};
 
-export { createTask, getAllItems, getSingleTask };
+export { createTask, getAllItems, getSingleTask, deleteSingleTodo };

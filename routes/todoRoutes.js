@@ -4,13 +4,14 @@ import {
     createTask,
     getSingleTask,
     // updateTodo,
-    // deleteTodo,
+    deleteSingleTodo,
 } from '../controllers/TodoControllers.js';
 const router = express.Router();
 
 router.route('/').get(getAllItems).post(createTask);
 router
     .route('/:id')
-    .get(getSingleTask); /*.patch(updateTodo).delete(deleteTodo);*/
+    .get(getSingleTask) /*.patch(updateTodo)*/
+    .delete(deleteSingleTodo);
 
 export default router;
